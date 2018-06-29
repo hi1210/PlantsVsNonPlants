@@ -10,8 +10,9 @@ if __name__ == '__main__':
         game.get_input()
         while game.gameOver == False:
             game.run_turn()
-            game.draw()
-            game.get_input()
+            if game.gameOver == False:
+                game.draw()
+                game.get_input()
         print("Game Over");
         #except ValueError as e:
             #print("Invalid gamefile")

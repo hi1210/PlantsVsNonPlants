@@ -33,7 +33,7 @@ class Game:
             s = []
             for col in range(self.width):
                 if self.is_plant(row, col):
-                    char = ' '
+                    char = 'P'
                 elif self.is_nonplant(row, col):
                     size = self.board[row][col].size()
                     char = str(size) if size < 10 else "#"
@@ -65,6 +65,7 @@ class Game:
 
     def place_nonplant(self, row):
         self.board[row][self.width-1].enqueue(Non_Plant())
+        self.nonPlants += 1
 
     def place_plant(self, row, col):
         if col < self.width-1 and self.board[row][col].isEmpty():
@@ -105,8 +106,8 @@ class Game:
     def nonplant_turn(self):
         for row in range(self.height):
             if self.is_nonplant(row, 0):
+                self.gameOver = True
                 print("YOU LOSED HAHAHAHAHA!")
-                self.gameOver == True
                 return
         for row in range(self.height):
             for col in range(1, self.width):
@@ -138,11 +139,15 @@ class Game:
             print("congratulations. you won. go pat yourself on the back or something I suppose")
 
     def draw_card(self):
-        card = self.powerDeck.pop().data
-        for row in range(self.height):
-            for col in range(self.width):
-                if self.is_plant(row, col):
-                    self.board[row][col].front().data.apply_powerup(card)
+        if(self.cash >= Card.cost):
+            card = self.powerDeck.pop().data
+            self.cash -= Card.cost
+            for row in range(self.height):
+                for col in range(self.width):
+                    if self.is_plant(row, col):
+                        self.board[row][col].front().data.apply_powerup(card)
+        else:
+            print("SHOW ME THE MONEY!!! NO CARD FOR YOU!")
 
     def get_input(self):
         while True:
@@ -152,7 +157,7 @@ class Game:
                     if (ui.lower() == 'c'):
                         self.draw_card()
                         break
-                    elif (ui.lower() == '1'):
+                    elif (ui.lower() == 'q'):
                         self.gameOver = True
                         break
                     else:

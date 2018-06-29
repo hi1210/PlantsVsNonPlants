@@ -164,7 +164,7 @@ class Game:
                         print("Invalid Input \"" + ui + "\"")
                 else:
                     try:
-                        row, col = [int(x) for x in ui.split(' ')]
+                        row, col = [int(x) for x in ui.split()]
                         self.place_plant(row, col)
                         break
                     except:
